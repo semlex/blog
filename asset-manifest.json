@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/lotosite/static/css/main.b14014a5.css",
+    "main.js": "/lotosite/static/js/main.b1de3d56.js",
+    "index.html": "/lotosite/index.html",
+    "main.b14014a5.css.map": "/lotosite/static/css/main.b14014a5.css.map",
+    "main.b1de3d56.js.map": "/lotosite/static/js/main.b1de3d56.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.b14014a5.css",
+    "static/js/main.b1de3d56.js"
+  ]
+}
