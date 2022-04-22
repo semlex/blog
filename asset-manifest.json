@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/lotosite/static/css/main.b14014a5.css",
-    "main.js": "/lotosite/static/js/main.b1de3d56.js",
-    "index.html": "/lotosite/index.html",
-    "main.b14014a5.css.map": "/lotosite/static/css/main.b14014a5.css.map",
-    "main.b1de3d56.js.map": "/lotosite/static/js/main.b1de3d56.js.map"
+    "main.css": "/blogsite/static/css/main.b14014a5.css",
+    "main.js": "/blogsite/static/js/main.6b53b23b.js",
+    "index.html": "/blogsite/index.html",
+    "main.b14014a5.css.map": "/blogsite/static/css/main.b14014a5.css.map",
+    "main.6b53b23b.js.map": "/blogsite/static/js/main.6b53b23b.js.map"
   },
   "entrypoints": [
     "static/css/main.b14014a5.css",
-    "static/js/main.b1de3d56.js"
+    "static/js/main.6b53b23b.js"
   ]
 }
