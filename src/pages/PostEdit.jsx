@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 import Input from '../components/Input'
 import Textarea from '../components/Textarea'
+import Modal from '../components/Modal'
 import { editPost, deletePost } from '../redux/postsSlice'
 import { useState } from 'react'
 import { useParams } from 'react-router-dom'
@@ -38,6 +39,9 @@ const Title = styled.h1`
   margin: 25px 0 15px 0;
   font-size: 20px;
   font-weight: 500;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: '…"';
 `
 
 const Form = styled.form``
@@ -53,6 +57,18 @@ const BottomButtons = styled.div`
   margin-top: 20px;
 `
 
+const ConfirmDelete = styled.div``
+
+const ConfirmDeleteTitle = styled.h2`
+  text-align: center;
+  margin: 10px 0 40px 0;
+`
+
+const ConfirmDeleteButtons = styled.div`
+  display: flex;
+  justify-content: space-around;
+`
+
 const PostEdit = () => {
    const { id } = useParams()
 
@@ -62,6 +78,8 @@ const PostEdit = () => {
 
    const [title, setTitle] = useState(post ? post.title : '')
    const [text, setText] = useState(post ? post.text : '')
+
+   const [modalOpen, setModalOpen] = useState(false)
 
    const dispatch = useDispatch()
 
@@ -102,44 +120,64 @@ const PostEdit = () => {
    return (
       <>
          {post &&
-            <Container>
-               <Button
-                  onClick={() => navigate(-1)}
+            <>
+               <Container>
+                  <Button
+                     onClick={() => navigate(-1)}
+                  >
+                     Назад
+                  </Button>
+                  <Title>
+                     Запись "{post.title}"
+                  </Title>
+                  <Form
+                     onSubmit={handleSave}
+                  >
+                     <Input
+                        type={'text'}
+                        minlength={'1'}
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
+                     />
+                     <BigTextarea
+                        value={text}
+                        minlength={'1'}
+                        onChange={(e) => setText(e.target.value)}
+                     />
+                     <BottomButtons>
+                        <RedButton
+                           type={'button'}
+                           onClick={() => setModalOpen(true)}
+                        >
+                           Удалить
+                        </RedButton>
+                        <Button
+                           type={'submit'}
+                        >
+                           Сохранить
+                        </Button>
+                     </BottomButtons>
+                  </Form>
+               </Container>
+               <Modal
+                  isOpen={modalOpen}
+                  handleClick={() => setModalOpen(false)}
                >
-                  Назад
-               </Button>
-               <Title>
-                  Запись "{post.title}"
-               </Title>
-               <Form
-                  onSubmit={handleSave}
-               >
-                  <Input
-                     type={'text'}
-                     minlength={'1'}
-                     value={title}
-                     onChange={(e) => setTitle(e.target.value)}
-                  />
-                  <BigTextarea
-                     value={text}
-                     minlength={'1'}
-                     onChange={(e) => setText(e.target.value)}
-                  />
-                  <BottomButtons>
-                     <RedButton
-                        type={'button'}
-                        onClick={handleDelete}
-                     >
-                        Удалить
-                     </RedButton>
-                     <Button
-                        type={'submit'}
-                     >
-                        Сохранить
-                     </Button>
-                  </BottomButtons>
-               </Form>
-            </Container>
+                  <ConfirmDelete>
+                     <ConfirmDeleteTitle>
+                        Удалить запись?
+                     </ConfirmDeleteTitle>
+                     <ConfirmDeleteButtons>
+                        <Button onClick={handleDelete}>
+                           Да
+                        </Button>
+                        <Button onClick={() => setModalOpen(false)}>
+                           Нет
+                        </Button>
+                     </ConfirmDeleteButtons>
+                  </ConfirmDelete>
+               </Modal>
+            </>
          }
       </>
    )

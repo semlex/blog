@@ -6,7 +6,7 @@ const Container = styled.div`
   align-content: flex-start;
   flex-flow: row wrap;
   margin: 0 -20px;
-  min-height: calc(100vh - 200px)
+  min-height: calc(100vh - 300px)
 `
 
 const PostsList = ({ posts }) => {

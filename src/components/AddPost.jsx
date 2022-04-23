@@ -1,40 +1,10 @@
 import styled from 'styled-components'
 import Input from './Input'
 import Textarea from './Textarea'
+import Modal from './Modal'
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { addPost } from '../redux/postsSlice'
-
-const Container = styled.div`
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.75);
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 9999;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  visibility: hidden;
-  opacity: 0;
-  pointer-events: none;
-
-  ${({isOpen}) => isOpen && `
-    visibility: visible;
-    opacity: 1;
-    pointer-events: auto
-  `}
-`
-const Content = styled.div`
-  width: 500px;
-  position: relative;
-  background: #fafafa;
-  max-width: 600px;
-  padding: 15px 10px;
-  max-height: calc(100vh - 30px);
-  overflow-y: auto;
-`
 
 const Form = styled.form``
 
@@ -66,20 +36,37 @@ const AddPost = ({ isOpen, setIsOpen }) => {
    const handleSubmit = (e) => {
      e.preventDefault()
 
-     dispatch(
-        addPost({
-           title,
-           text
+     if (!title || !text) {
+        if (!title) {
+           e.target.querySelector('input').setAttribute('data-error', 'true')
+        }
+        if (!text) {
+           e.target.querySelector('textarea').setAttribute('data-error', 'true')
+        }
+     } else {
+        e.target.querySelectorAll('[data-error="true"]').forEach(item => {
+           item.setAttribute('data-error', 'false')
         })
-     )
 
-     setTitle('')
-     setText('')
-     setIsOpen(false)
+        dispatch(
+           addPost({
+              title,
+              text
+           })
+        )
+
+        setTitle('')
+        setText('')
+        setIsOpen(false)
+     }
    }
 
    const cancel = (e) => {
      e.preventDefault()
+
+      document.querySelectorAll('[data-error="true"]').forEach(item => {
+         item.setAttribute('data-error', 'false')
+      })
 
      setTitle('')
      setText('')
@@ -87,36 +74,35 @@ const AddPost = ({ isOpen, setIsOpen }) => {
    }
 
   return (
-     <Container
+     <Modal
         isOpen={isOpen}
+        handleClick={cancel}
      >
-       <Content>
-          <Form onSubmit={handleSubmit}>
-             <Input
-                type={'text'}
-                minlength={'1'}
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-             />
-             <Textarea
-                minlength={'1'}
-                value={text}
-                onChange={(e) => setText(e.target.value)}
-             />
-             <ButtonsWrapper>
-                <Button
-                   type={'button'}
-                   onClick={cancel}
-                >
-                   Отменить
-                </Button>
-                <Button type={'submit'}>
-                   Сохранить
-                </Button>
-             </ButtonsWrapper>
-          </Form>
-       </Content>
-     </Container>
+        <Form onSubmit={handleSubmit}>
+           <Input
+              type={'text'}
+              minlength={'1'}
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+           />
+           <Textarea
+              minlength={'1'}
+              value={text}
+              onChange={(e) => setText(e.target.value)}
+           />
+           <ButtonsWrapper>
+              <Button
+                 type={'button'}
+                 onClick={cancel}
+              >
+                 Отменить
+              </Button>
+              <Button type={'submit'}>
+                 Сохранить
+              </Button>
+           </ButtonsWrapper>
+        </Form>
+     </Modal>
   )
 }
 
