@@ -3,7 +3,7 @@ import Input from '../components/Input'
 import Textarea from '../components/Textarea'
 import Modal from '../components/Modal'
 import { editPost, deletePost } from '../redux/postsSlice'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
@@ -82,6 +82,12 @@ const PostEdit = () => {
    const [modalOpen, setModalOpen] = useState(false)
 
    const dispatch = useDispatch()
+
+   useEffect(() => {
+      if (!post) {
+         navigate(-1)
+      }
+   }, [post])
 
    const handleDelete = () => {
       dispatch(

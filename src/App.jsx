@@ -10,7 +10,7 @@ import {
 
 const App = () => {
    return (
-      <Router>
+      <Router basename={'/blogsite'}>
          <ScrollToTop>
             <Routes>
                <Route exact path={'/'} element={<Home />} />
