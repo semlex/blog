@@ -95,8 +95,6 @@ const PostEdit = () => {
             id: post.id
          })
       )
-
-      navigate(-1)
    }
 
    const handleSave = (e) => {
